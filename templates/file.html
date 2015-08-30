@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 
-{# available: entry, parents, root, screenshot_dir, files_dir #}
+{# available: entry, parents, root, successor, screenshot_dir, files_dir #}
 
 {% block title %}
     {{ entry.title }}
@@ -15,10 +15,35 @@
         {% endfor %}
         <li class="active">{{ entry.title }}</li>
     </ol>
-    
+    {% if successor %}
+    <div class="alert alert-info">
+        <strong>New version available!</strong>
+        <a href="{{ root }}/{{ successor.path }}">Find it here.</a>
+    </div>
+    {% endif %}
+    <p>
+        By {{ entry.author }}<br/>
+        Date: {{ entry.date }}
+        {% if entry.version %}
+        <br/>Version: {{ entry.version }}
+        {% endif %}
+    </p>
     <p>
         <a class="btn btn-default" href="{{ files_dir }}/{{ entry.id }}_{{ entry.filename}}">Download</a>
     </p>
+    
+    {% if entry.screenshots %}
+    <h2>Screenshots</h2>
+    <div class="row">
+        {% for shot in entry.screenshots %}
+        <div class="col-xs-12 col-sm-4 col-md-3">
+            <a href="{{ screenshot_dir }}/{{ shot.full }}" class="thumbnail">
+                <img src="{{ screenshot_dir }}/{{ shot.thumb }}" alt="screenshot {{ loop.index }}">
+            </a>
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
     
     {% if entry.readme %}
     <h2>Readme</h2>

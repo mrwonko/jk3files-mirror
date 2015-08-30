@@ -24,9 +24,12 @@ for id in config.NO_SUCCESSOR:
     del entriesById[id]["successorId"]
 assert( all([entry["successorId"] in entriesById for entry in entries if "successorId" in entry]) )
 
-# adjust category names
+# adjust category names; cache URLs; add screenshot thumbs
 for entry in entries:
     entry["category"] = [ config.CATEGORY_RENAMES.get( piece, piece ) for piece in entry["category"] ]
+    entry["path"] = "/".join( entry["category"] + [ str( entry["id"] ) ] )
+    if "screenshots" in entry:
+        entry["screenshots"] = [{"thumb": os.path.splitext( x )[0] + "_thumb" + os.path.splitext( x )[1], "full": x} for x in entry["screenshots"]]
 
 # create and fill category tree
 
@@ -84,6 +87,7 @@ class Category:
                     entry = entry,
                     parents = parents,
                     root = parents[0][0],
+                    successor = entriesById[ entry[ "successorId" ] ] if "successorId" in entry else None,
                     screenshot_dir = parents[0][0] + "/" + local_config.SCREENSHOTS if local_config.SCREENSHOTS_RELATIVE else local_config.SCREENSHOTS,
                     files_dir = parents[0][0] + "/" + local_config.FILES if local_config.FILES_RELATIVE else local_config.FILES
                     )
