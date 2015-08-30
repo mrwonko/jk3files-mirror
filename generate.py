@@ -1,0 +1,93 @@
+from __future__ import print_function
+import config, local_config
+import os, os.path
+import json
+import jinja2
+
+entries = [ json.loads( line ) for line in open( local_config.INPUT ) if line.strip() != "" ]
+entries = [ entry for entry in entries if entry["id"] not in config.BLACKLIST ]
+#entriesByUrl = { entry["pageUrl"] : entry for entry in entries }
+entriesById = { entry["id"]: entry for entry in entries }
+
+keys = { key for entry in entries for key in entry.keys() }
+
+# set successorId based on successorUrl
+for entry in filter( lambda entry: "successorUrl" in entry, entries ):
+    entry["successorId"] = int( entry["successorUrl"].rsplit( ";", 1 )[1] )
+# some entries have broken successors; fix those
+for id, successor in config.SUCCESSOR_FIXES.items():
+    entriesById[id]["successorId"] = successor
+# or if no fix is known, delete them
+for id in config.NO_SUCCESSOR:
+    del entriesById[id]["successorId"]
+assert( all([entry["successorId"] in entriesById for entry in entries if "successorId" in entry]) )
+
+# adjust category names
+for entry in entries:
+    entry["category"] = [ config.CATEGORY_RENAMES.get( piece, piece ) for piece in entry["category"] ]
+
+# create and fill category tree
+
+env = jinja2.Environment(
+    loader = jinja2.FileSystemLoader( "templates" )
+)
+category_template = env.get_template( "category.html" )
+entry_template = env.get_template( "file.html" )
+
+class Category:
+    def __init__( self, name, parent=None ):
+        self.name = name
+        self.parent = parent
+        self.children = {}
+        self.files = []
+    def insert( self, entry, category ):
+        if len( category ) == 0:
+            self.files.append( entry )
+        else:
+            if category[ 0 ] not in self.children:
+                self.children[ category[ 0 ] ] = Category( category[ 0 ], self )
+            self.children[ category[ 0 ] ].insert( entry, category[ 1: ] )
+    def write( self, directory, parents = None ):
+        # list of (path, name) parent pairs
+        parents = parents or []
+
+        # write category file
+        if not os.path.isdir( directory ):
+            os.makedirs( directory )
+        with open( os.path.join( directory, "index.html" ), "w" ) as index:
+            index.write( category_template.render(
+                name = self.name,
+                parents = parents,
+                children = self.children,
+                entries = self.files,
+                root = parents[ 0 ][ 0 ] if parents else "."
+                ))
+
+        # write subcategories
+        parents = [ ("../" + path, name) for (path, name) in parents ] + [ ( "..", self.name ) ]
+        for child in self.children.values():
+            child.write( os.path.join( directory, child.name ), parents )
+            break
+        # write entries
+        myname = "/".join( [ name for (path, name) in parents ] )
+        for entry in self.files:
+            entry_dir = os.path.join( directory, str( entry["id"] ) )
+            if not os.path.isdir( entry_dir ):
+                os.makedirs( entry_dir )
+            with open( os.path.join( entry_dir, "index.html" ), "w" ) as index:
+                index.write( entry_template.render(
+                    entry = entry,
+                    parents = parents,
+                    root = parents[0][0],
+                    screenshot_dir = parents[0][0] + "/" + local_config.SCREENSHOTS if local_config.SCREENSHOTS_RELATIVE else local_config.SCREENSHOTS,
+                    files_dir = parents[0][0] + "/" + local_config.FILES if local_config.FILES_RELATIVE else local_config.FILES
+                    ))
+            #print( "/".join( [ myname, entry["title"] ] ) )
+            break
+        print( myname + "/" )
+
+root = Category( "jk3files mirror" )
+for entry in entries:
+    root.insert( entry, entry["category"] )
+
+root.write( local_config.OUTPUT_DIR )

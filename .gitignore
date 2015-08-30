@@ -1,0 +1,7 @@
+Include/
+Lib/
+Scripts/
+pip-selfcheck.json
+*.pyc
+local_config.py
+output/
