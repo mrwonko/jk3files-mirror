@@ -1,6 +1,7 @@
 from __future__ import print_function
 import config, local_config
 import os, os.path
+import shutil
 import json
 import jinja2
 
@@ -91,3 +92,5 @@ for entry in entries:
     root.insert( entry, entry["category"] )
 
 root.write( local_config.OUTPUT_DIR )
+for name in [ "bootstrap.min.css", "bootstrap-theme.min.css" ]:
+    shutil.copy( os.path.join( "bootstrap", name ), os.path.join( local_config.OUTPUT_DIR, name ) )
