@@ -1,10 +1,29 @@
-<html>
-    <head>
-        <title>
-            {{entry.title}}
-        </title>
-    </head>
-    <body>
-        TODO: {{entry.title}}
-    </body>
-</html>
+{% extends "base.html" %}
+
+{# available: entry, parents, root, screenshot_dir, files_dir #}
+
+{% block title %}
+    {{ entry.title }}
+{% endblock %}
+
+{% block content %}
+    <h1>{{ entry.title }}</h1>
+    
+    <ol class="breadcrumb">
+        {% for (parent_url, parent_name) in parents %}
+        <li><a href="{{ parent_url }}">{{ parent_name }}</a></li>
+        {% endfor %}
+        <li class="active">{{ entry.title }}</li>
+    </ol>
+    
+    <p>
+        <a class="btn btn-default" href="{{ files_dir }}/{{ entry.id }}_{{ entry.filename}}">Download</a>
+    </p>
+    
+    {% if entry.readme %}
+    <h2>Readme</h2>
+    <p>
+        {{ entry.readme }}
+    </p>
+    {% endif %}
+{% endblock %}

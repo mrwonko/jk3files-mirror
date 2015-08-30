@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 from __future__ import print_function
 import config, local_config
 import os, os.path
@@ -30,9 +31,10 @@ for entry in entries:
 # create and fill category tree
 
 env = jinja2.Environment(
-    loader = jinja2.FileSystemLoader( "templates" )
+    loader = jinja2.FileSystemLoader( "templates", encoding='utf-8' )
 )
 category_template = env.get_template( "category.html" )
+root_template = env.get_template( "root.html" )
 entry_template = env.get_template( "file.html" )
 
 class Category:
@@ -55,14 +57,16 @@ class Category:
         # write category file
         if not os.path.isdir( directory ):
             os.makedirs( directory )
-        with open( os.path.join( directory, "index.html" ), "w" ) as index:
-            index.write( category_template.render(
+        with open( os.path.join( directory, "index.html" ), "wb" ) as index:
+            template = category_template if self.parent else root_template
+            html = template.render(
                 name = self.name,
                 parents = parents,
                 children = self.children,
                 entries = self.files,
                 root = parents[ 0 ][ 0 ] if parents else "."
-                ))
+                )
+            index.write( html.encode( "utf-8" ) )
 
         # write subcategories
         parents = [ ("../" + path, name) for (path, name) in parents ] + [ ( "..", self.name ) ]
@@ -75,19 +79,20 @@ class Category:
             entry_dir = os.path.join( directory, str( entry["id"] ) )
             if not os.path.isdir( entry_dir ):
                 os.makedirs( entry_dir )
-            with open( os.path.join( entry_dir, "index.html" ), "w" ) as index:
-                index.write( entry_template.render(
+            with open( os.path.join( entry_dir, "index.html" ), "wb" ) as index:
+                html = entry_template.render(
                     entry = entry,
                     parents = parents,
                     root = parents[0][0],
                     screenshot_dir = parents[0][0] + "/" + local_config.SCREENSHOTS if local_config.SCREENSHOTS_RELATIVE else local_config.SCREENSHOTS,
                     files_dir = parents[0][0] + "/" + local_config.FILES if local_config.FILES_RELATIVE else local_config.FILES
-                    ))
+                    )
+                index.write( html.encode( "utf-8" ) )
             #print( "/".join( [ myname, entry["title"] ] ) )
             break
         print( myname + "/" )
 
-root = Category( "jk3files mirror" )
+root = Category( u"jk3files mirror" )
 for entry in entries:
     root.insert( entry, entry["category"] )
 

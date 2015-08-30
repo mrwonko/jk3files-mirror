@@ -16,6 +16,6 @@ BLACKLIST = []
 
 # categories to rename
 CATEGORY_RENAMES = {
-    "Jedi Knight 2: Jedi Outcast Downloads": "Jedi Outcast",
-    "Jedi Knight 3: Jedi Academy Downloads": "Jedi Academy"
+    u"Jedi Knight 2: Jedi Outcast Downloads": u"Jedi Outcast",
+    u"Jedi Knight 3: Jedi Academy Downloads": u"Jedi Academy"
 }

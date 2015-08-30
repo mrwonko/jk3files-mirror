@@ -1,10 +1,20 @@
-<html>
-    <head>
-        <title>
-            {{name}}
-        </title>
-    </head>
-    <body>
-        TODO: {{name}}
-    </body>
-</html>
+{% extends "base.html" %}
+
+{# available: name, parents, children, entries, root #}
+
+{% block title %}
+    {{ name }}
+{% endblock %}
+
+{% block content %}
+    <h1>{% block heading %}{{ name }}{% endblock %}</h1>
+    
+    {% if parents|count > 0 %}
+    <ol class="breadcrumb">
+        {% for (parent_url, parent_name) in parents %}
+        <li><a href="{{ parent_url }}">{{ parent_name }}</a></li>
+        {% endfor %}
+        <li class="active">{{ name }}</li>
+    </ol>
+    {% endif %}
+{% endblock %}
