@@ -12,7 +12,10 @@ NO_SUCCESSOR = [
 ]
 
 # IDs to omit per the author's request or similar
-BLACKLIST = []
+BLACKLIST = [
+    # files by afiNity
+    66973, 71666, 71893, 73127, 74141, 74579, 86817, 104039, 117522
+]
 
 # categories to rename
 CATEGORY_RENAMES = {
