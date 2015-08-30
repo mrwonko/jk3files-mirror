@@ -75,7 +75,8 @@ class Category:
         parents = [ ("../" + path, name) for (path, name) in parents ] + [ ( "..", self.name ) ]
         for child in self.children.values():
             child.write( os.path.join( directory, child.name ), parents )
-            break
+            if local_config.BREAK_EARLY:
+                break
         # write entries
         myname = "/".join( [ name for (path, name) in parents ] )
         for entry in self.files:
@@ -93,7 +94,8 @@ class Category:
                     )
                 index.write( html.encode( "utf-8" ) )
             #print( "/".join( [ myname, entry["title"] ] ) )
-            break
+            if local_config.BREAK_EARLY:
+                break
         print( myname + "/" )
 
 root = Category( u"jk3files mirror" )

@@ -17,4 +17,35 @@
         <li class="active">{{ name }}</li>
     </ol>
     {% endif %}
+    
+    {% if children|count > 0 %}
+    <h2>Subcategories</h2>
+    <ul>
+        {% for name, child in children|dictsort %}
+        <li><a href="{{ name }}">{{ name }}</a></li>
+        {% endfor %}
+    </ul>
+    {% endif %}
+    
+    {% if entries|count > 0 %}
+    <h2>Files</h2>
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Version</th>
+                <th>Author</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for entry in entries|sort( attribute = 'title' ) %}
+            <tr>
+                <td><a href="{{ entry.id }}">{{ entry.title }}</a></td>
+                <td>{{ entry.version }}</td>
+                <td>{{ entry.author }}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+    {% endif %}
 {% endblock %}
