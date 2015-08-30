@@ -383,10 +383,11 @@
   "css": [
     "type.less",
     "grid.less",
+    "buttons.less",
     "breadcrumbs.less",
     "thumbnails.less",
     "alerts.less"
   ],
   "js": [],
-  "customizerUrl": "http://getbootstrap.com/customize/?id=a483f467de35cb8aef4a"
+  "customizerUrl": "http://getbootstrap.com/customize/?id=8caac779f21c75ceddd0"
 }
