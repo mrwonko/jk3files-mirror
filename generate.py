@@ -31,6 +31,15 @@ for entry in entries:
     if "screenshots" in entry:
         entry["screenshots"] = [{"thumb": os.path.splitext( x )[0] + "_thumb" + os.path.splitext( x )[1], "full": x} for x in entry["screenshots"]]
 
+# create search entries, which are stripped down entries
+search_entries = [ {
+        "id": entry[ "id" ],
+        "category": "/".join( entry[ "category" ] ),
+        "title": entry[ "title" ],
+        "version": entry.get( "version", None ),
+        "author": entry[ "author" ]
+    } for entry in entries ]
+
 # create and fill category tree
 
 env = jinja2.Environment(
@@ -39,6 +48,7 @@ env = jinja2.Environment(
 category_template = env.get_template( "category.html" )
 root_template = env.get_template( "root.html" )
 entry_template = env.get_template( "file.html" )
+search_template = env.get_template( "search.html" )
 
 class Category:
     def __init__( self, name, parent=None ):
@@ -103,5 +113,20 @@ for entry in entries:
     root.insert( entry, entry["category"] )
 
 root.write( local_config.OUTPUT_DIR )
+with open( os.path.join( local_config.OUTPUT_DIR, "search.html" ), "wb" ) as search:
+    html = search_template.render(
+        root = "."
+        )
+    search.write( html.encode( "utf-8" ) )
+with open( os.path.join( local_config.OUTPUT_DIR, "entries.json" ), "wb" ) as json_file:
+    json.dump( search_entries, json_file )
+# copy fontawesome files
+for folder in [ "css", "fonts" ]:
+    shutil.rmtree( os.path.join( local_config.OUTPUT_DIR, folder ), True )
+    shutil.copytree( os.path.join( "fontawesome", folder ), os.path.join( local_config.OUTPUT_DIR, folder ) )
+# copy bootstrap files
 for name in [ "bootstrap.min.css", "bootstrap-theme.min.css" ]:
-    shutil.copy( os.path.join( "bootstrap", name ), os.path.join( local_config.OUTPUT_DIR, name ) )
+    shutil.copy( os.path.join( "bootstrap", name ), os.path.join( local_config.OUTPUT_DIR, "css", name ) )
+# copy scripts
+for name in [ "angular.min.js", "lodash.min.js", "search.js" ]:
+    shutil.copy( os.path.join( "js", name ), os.path.join( local_config.OUTPUT_DIR, name ) )

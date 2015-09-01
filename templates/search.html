@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+
+{% block title %}
+JK3Files mirror - search
+{% endblock %}
+
+{% block head %}
+        <link rel="stylesheet" href="css/font-awesome.min.css" />
+        <script src="angular.min.js"></script>
+        <script src="lodash.min.js"></script>
+        <script src="search.js"></script>
+{% endblock %}
+
+{% block content %}
+    <h1>Search</h1>
+    <div x-ng-app="search" x-ng-controller="SearchCtrl" x-ng-cloak class="table">
+    <div class="alert alert-error" x-ng-if="error">
+        <strong>Failed to load entries!</strong>
+        {{ '{{ error }}' }}
+    </div>
+    <p x-ng-if="loading">
+        Loading <i class="fa fa-spinner fa-pulse"></i>
+    </p>
+    <p x-ng-if="!loading && !error">
+        Displaying the first {{ '{{ limit }}' }} results. Click the headings to sort (again to toggle descending sort), enter text to search (ID only searches for exact matches).
+    </p>
+    <table x-ng-if="!loading && !error" class="table">
+        <thead>
+            <tr>
+                <th><a href="#" x-ng-click="sortByID()">ID</a> <i class="fa" x-ng-class="'fa-sort-numeric-'+orderString()" x-ng-if="sortBy == 'id'"></i></th>
+                <th><a href="#" x-ng-click="sortByCategory()">Category</a> <i class="fa" x-ng-class="'fa-sort-alpha-'+orderString()" x-ng-if="sortBy == 'category'"></th>
+                <th><a href="#" x-ng-click="sortByTitle()">Title</a> <i class="fa" x-ng-class="'fa-sort-alpha-'+orderString()" x-ng-if="sortBy == 'title'"></th>
+                <th>Version</th>
+                <th><a href="#" x-ng-click="sortByAuthor()">Author</a> <i class="fa" x-ng-class="'fa-sort-alpha-'+orderString()" x-ng-if="sortBy == 'author'"></th>
+            </tr>
+            <tr>
+                <td><input x-ng-model="filter.id"/></td>
+                <td><input x-ng-model="filter.category"/></td>
+                <td><input x-ng-model="filter.title"/></td>
+                <td></td>
+                <td><input x-ng-model="filter.author"/></td>
+            </tr>
+        </thead>
+        <tbody>
+            <tr x-ng-repeat="entry in entries | filterAndSort : filter : sortBy : reverseOrder | limitTo : limit track by entry.id">
+                <td>{{ '{{ entry.id }}' }}</td>
+                <td>{{ '{{ entry.category }}' }}</td>
+                <td>{{ '<a href="{{ entry.category }}/{{ entry.id }}">{{ entry.title }}</a>' }}</td>
+                <td>{{ '{{ entry.version }}' }}</td>
+                <td>{{ '{{ entry.author }}' }}</td>
+            </tr>
+        </tbody>
+    </table>
+{% endblock %}
