@@ -16,7 +16,9 @@ BLACKLIST = [
     # files by afiNity
     66973, 71666, 71893, 73127, 74141, 74579, 86817, 104039, 117522,
     # The Arena of Ankor per request of Cody Small
-    69132
+    69132,
+    # SiLink's readmes contain his mail, which he doesn't want online; editing the readme during processing would be a PITA, so they're simply blacklisted.
+    89294, 90878, 95303,
 ]
 
 # categories to rename
