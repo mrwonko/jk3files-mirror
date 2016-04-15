@@ -12,7 +12,7 @@
         <link rel="stylesheet" href="{{ root }}/css/bootstrap-theme.min.css" />
         {% block head %}{% endblock %}
     </head>
-    <body>
+    <body onload="init_bar()">
         <div class="container">
             {% block content %}{% endblock %}
         </div>
