@@ -130,3 +130,6 @@ for name in [ "bootstrap.min.css", "bootstrap-theme.min.css" ]:
 # copy scripts
 for name in [ "angular.min.js", "lodash.min.js", "search.js" ]:
     shutil.copy( os.path.join( "js", name ), os.path.join( local_config.OUTPUT_DIR, name ) )
+# copy custom css
+for name in [ "jkhub-bar.css" ]:
+    shutil.copy( os.path.join( "css", name ), os.path.join( local_config.OUTPUT_DIR, "css", name ) )
