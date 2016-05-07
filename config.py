@@ -20,7 +20,7 @@ BLACKLIST = [
     # SiLink's readmes contain his mail, which he doesn't want online; editing the readme during processing would be a PITA, so they're simply blacklisted.
     89294, 90878, 95303,
     # Luciel's files
-    91030, 92067, 87693, 87884, 87918, 92110, 89229, 91063, 59308, 92080, 90922, 89548, 91030,
+    91030, 92067, 87693, 87884, 87918, 92110, 89229, 91063, 59308, 92080, 90922, 89548, 91030, 89308,
 ]
 
 # categories to rename
