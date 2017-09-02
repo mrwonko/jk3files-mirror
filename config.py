@@ -28,3 +28,10 @@ CATEGORY_RENAMES = {
     u"Jedi Knight 2: Jedi Outcast Downloads": u"Jedi Outcast",
     u"Jedi Knight 3: Jedi Academy Downloads": u"Jedi Academy"
 }
+
+OVERRIDES = {
+    # Author asked to have mail removed from readme
+    97164 : {
+        "readme" : "<span style=\"font-size:10px;font-family:arial;\">*********************************** <br>\r\nJedi Knight: Jedi Academy <br>\r\n*********************************** <br>\r\nTITLE**: The Real Starkiller<br>\r\nAUTHOR**: Me, Dur: Nultma <br>\r\nWEBSITE: srynubsdonthaveone<br>\r\nSkype: x_izero_x<br>\r\n<br>\r\nFILE NAME: starkiller.pk3<br>\r\nDATE RELEASED: 16 of Jan 2008<br>\r\n<br>\r\nCREDITS**: Starkiller is some psyco android something that likes killing stars, he is fully<br>\r\nsick and hates TFU and all the Galen Marek's out there.<br>\r\n<br>\r\nThis is made by me, it's ment to be crappy if your wondering XD<br>\r\n<br>\r\n<br>\r\nNOTES: Have fun, the only bug is the model itself, since it's so bad!<br>\r\n<br>\r\nInstillation: Put it in base folder or any other mod you have, whatever.<br>\r\n<br>\r\n<br>\r\nTHIS MODIFICATION IS NOT MADE, DISTRIBUTED, OR SUPPORTED BY ACTIVISION, RAVEN, OR <br>\r\nLUCASARTS ENTERTAINMENT COMPANY LLC. ELEMENTS TM &amp;  LUCASARTS <br>\r\nENTERTAINMENT COMPANY LLC AND/OR ITS LICENSORS.</span>",
+    },
+}

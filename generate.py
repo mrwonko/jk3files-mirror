@@ -6,9 +6,19 @@ import shutil
 import json
 import jinja2
 
+# load entries
 entries = [ json.loads( line ) for line in open( local_config.INPUT ) if line.strip() != "" ]
+
+# we can't modify the original json metadata as it's part of a torrent
+
+# filter blacklisted
 entries = [ entry for entry in entries if entry["id"] not in config.BLACKLIST ]
-#entriesByUrl = { entry["pageUrl"] : entry for entry in entries }
+
+# apply overrides
+for entry in entries:
+    if entry["id"] in config.OVERRIDES:
+        entry.update(config.OVERRIDES[entry["id"]])
+
 entriesById = { entry["id"]: entry for entry in entries }
 
 keys = { key for entry in entries for key in entry.keys() }
@@ -118,7 +128,7 @@ with open( os.path.join( local_config.OUTPUT_DIR, "search.html" ), "wb" ) as sea
         root = "."
         )
     search.write( html.encode( "utf-8" ) )
-with open( os.path.join( local_config.OUTPUT_DIR, "entries.json" ), "wb" ) as json_file:
+with open( os.path.join( local_config.OUTPUT_DIR, "entries.json" ), "w" ) as json_file:
     json.dump( search_entries, json_file )
 # copy fontawesome files
 for folder in [ "css", "fonts" ]:
