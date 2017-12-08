@@ -21,6 +21,8 @@ BLACKLIST = [
     89294, 90878, 95303,
     # Luciel's files
     91030, 92067, 87693, 87884, 87918, 92110, 89229, 91063, 59308, 92080, 90922, 89548, 91030, 89308,
+    # Miso had already tried to get this off Filefront before, without success
+    121988,
 ]
 
 # categories to rename
