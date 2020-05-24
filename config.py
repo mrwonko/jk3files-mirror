@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*-
 # some files have broken successors
 SUCCESSOR_FIXES = {
     9180: 9220, # FFAMod (1.0) -> FFAMod (1.02)
