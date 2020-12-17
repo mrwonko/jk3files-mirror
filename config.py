@@ -32,6 +32,8 @@ BLACKLIST = [
     99865, 99866, 87447,
     # PhysicWater
     49105,
+    # Eric Whittle
+    114641,
 ]
 
 # categories to rename
