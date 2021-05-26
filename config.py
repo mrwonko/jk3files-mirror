@@ -34,6 +34,8 @@ BLACKLIST = [
     49105,
     # Eric Whittle
     114641,
+    # Seifer Almasy model
+    30192,
 ]
 
 # categories to rename
