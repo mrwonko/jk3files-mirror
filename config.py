@@ -37,7 +37,7 @@ BLACKLIST = [
     # Seifer Almasy model
     30192,
     # PyroTechnics
-    46708, 46708,
+    37268, 46708,
 ]
 
 # categories to rename
