@@ -38,6 +38,8 @@ BLACKLIST = [
     30192,
     # PyroTechnics
     37268, 46708,
+    # Fybo
+    105129, 42796, 45692,
 ]
 
 # categories to rename
