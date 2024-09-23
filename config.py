@@ -40,6 +40,11 @@ BLACKLIST = [
     37268, 46708,
     # Fybo
     105129, 42796, 45692,
+    # Clean versions of these files by ZantuS and Hugo are available at
+    # https://jkhub.org/files/file/495-kyleball/
+    115211,
+    # https://jkhub.org/files/file/981-terminative-3-home/
+    100072,
 ]
 
 # categories to rename
