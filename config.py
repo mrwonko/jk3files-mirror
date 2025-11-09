@@ -45,6 +45,8 @@ BLACKLIST = [
     115211,
     # https://jkhub.org/files/file/981-terminative-3-home/
     100072,
+    # removal request by author BaTTLEDrOiDLoVeR, broken file
+    120287,
 ]
 
 # categories to rename
